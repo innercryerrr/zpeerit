@@ -4,8 +4,9 @@
     "package-name": "zpeeritApk",
     "description": "my project",
     "main": "index.js",
+    "type": "commonjs",
     "scripts": {
-        "start:dev": "node .",
+        "start": "node .",
         "build": "androidjs build"
     },
     "author": "",
