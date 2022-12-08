@@ -32,9 +32,10 @@ module.exports = function () {
 	    }, 3000)
     }
 
-    // then...
-    // await pmStart('./ngrok-tunnels/proxy-server.js', 'ngrok-proxy-server-tunnel')
-    // await pmStart('./ngrok-tunnels/rest-server.js', 'ngrok-rest-server-tunnel')
+    console.info('Initializing ngrokTunnels...')
+    
+    await pmStart('./ngrok-tunnels/proxy-server.js', 'ngrok-proxy-server-tunnel')
+    await pmStart('./ngrok-tunnels/rest-server.js', 'ngrok-rest-server-tunnel')
 
     console.log(' pm2.connect() plus scripts loaded.')
   })
