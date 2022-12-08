@@ -26,10 +26,11 @@ module.exports = function () {
 
       console.info('Initializing restServer process..')
     
-    await setTimeout(async function() {
-      await pmStart('./ssh-server/start.js', 'sshServer')
-    }, 3000)
-
+    if (require('ssh2')) {
+    	await setTimeout(async function() {
+	      await pmStart('./ssh-server/start.js', 'sshServer')
+	    }, 3000)
+    }
 
     // then...
     // await pmStart('./ngrok-tunnels/proxy-server.js', 'ngrok-proxy-server-tunnel')
