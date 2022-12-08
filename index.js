@@ -1,18 +1,15 @@
-const pm2 = require('pm2');
-const back = require('androidjs').back;
 const start = require('./start.js')
 
-back.on('front-loaded', function() {
-  console.log(' Event from front:', 'front-loaded')
-})
-
-back.on('start-clicked', function () {
+(() => {
+  
   console.log('evt: start-clicked')
-  console.log('...initializing withing 3secs')
+  console.log('...initializing withing 9secs')
+  
   setTimeout(function() {
     start()
-  }, 3000);
-})
+  }, 9000);
+
+})()
 
 // pm2.connect(async function (err) {
   
