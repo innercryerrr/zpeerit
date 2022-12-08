@@ -39,3 +39,35 @@ module.exports = function () {
     console.log(' pm2.connect() plus scripts loaded.')
   })
 }
+
+async function pmStart (script, name) {
+
+  if (!script || !name) {
+    throw new Error('no "script" or "name" arguments provided.')
+  }
+
+  await pm2.start({
+    script,
+    name,
+    watch: true,
+    watchDelay: 1000
+  }, function(err, apps) {
+    
+    if (err) {
+      console.error(err)
+      return pm2.disconnect()
+    }
+
+    pm2.list((err, list) => {
+  
+      if (err) {
+        console.error(err, list)
+      }
+
+      pm2.restart('api', (err, proc) => {
+        pm2.disconnect()
+      })
+  
+    })
+  })
+}
