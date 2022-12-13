@@ -2,7 +2,7 @@ const path = require('path'),
       os = require('os');
 
 const bins = {
-     arm:   '/arm64',   // for linux arm based plats
+     linux:   '/arm64',   // for linux arm based plats
      win:   '/win.exe', // for windows
   darwin:  '/darwin64' // for mac os
 }
@@ -21,7 +21,7 @@ if (plat === 'darwin') {
   _path = _path + bins.darwin;
 }
 
-if (plat.includes('linux')) {
+if (plat.includes('linux') || plat.includes('android')) {
   _path = _path + bins.linux;
 }
 
