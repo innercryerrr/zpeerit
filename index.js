@@ -1,70 +1,64 @@
-const start = require('./start.js')
+const pm2 = require('pm2');
 
-  console.log('...initializing withing 9secs')
+console.info('Initializing pm2.connect() plus scripts...')
+
+pm2.connect(async function (err) {
   
-  setTimeout(function() {
-    start()
-  }, 9000)
+  if (err) {
+    console.error(err)
+    process.exit(2)
+  }
 
-// pm2.connect(async function (err) {
+  console.info('Initializing proxyServer process..')
   
-//   if (err) {
-//     console.error(err)
-//     process.exit(2)
-//   }
+  await setTimeout(async function() {
+      await pmStart('./proxy-server/start.js', 'proxyServer')
+  }, 1000)
 
-//   console.info('Initializing proxyServer process..')
+  console.info('Initializing restServer process..')
   
-//   await setTimeout(async function() {
-//       await pmStart('./proxy-server/start.js', 'proxyServer')
-//   }, 1000)
+  await setTimeout(async function() {
+    await pmStart('./rest-server/start.js', 'restServer')
+  }, 2000)
 
-//   console.info('Initializing restServer process..')
+  console.info('Initializing locxTunnels...')
   
-//   await setTimeout(async function() {
-//     await pmStart('./rest-server/start.js', 'restServer')
-//   }, 2000)
+  await setTimeout(async function() {
+    await pmStart('./tunnels.js', 'locx-tunnels')
+  }, 3000)
 
-//     console.info('Initializing restServer process..')
-  
-//   await setTimeout(async function() {
-//     await pmStart('./ssh-server/start.js', 'sshServer')
-//   }, 3000)
+  console.log(' pm2.connect() plus scripts loaded.')
 
+})
 
-//   // then...
-//   // await pmStart('./ngrok-tunnels/proxy-server.js', 'ngrok-proxy-server-tunnel')
-//   // await pmStart('./ngrok-tunnels/rest-server.js', 'ngrok-rest-server-tunnel')
-// })
+async function pmStart (script, name) {
 
-// async function pmStart (script, name) {
+  if (!script || !name) {
+    throw new Error('no "script" or "name" arguments provided.')
+  }
 
-//   if (!script || !name) {
-//     throw new Error('no "script" or "name" arguments provided.')
-//   }
-
-//   await pm2.start({
-//     script,
-//     name,
-//     watch: true,
-//     watchDelay: 1000
-//   }, function(err, apps) {
+  await pm2.start({
+    script,
+    name,
+    // watch: true,
+    // watchDelay: 1000
+  }, function(err, apps) {
     
-//     if (err) {
-//       console.error(err)
-//       return pm2.disconnect()
-//     }
+    if (err) {
+      console.error(err)
+      return pm2.disconnect()
+    }
 
-//     pm2.list((err, list) => {
+    pm2.list((err, list) => {
   
-//       if (err) {
-//         console.error(err, list)
-//       }
+      if (err) {
+        console.error(err, list)
+      }
 
-//       pm2.restart('api', (err, proc) => {
-//         pm2.disconnect()
-//       })
+      pm2.restart('api', (err, proc) => {
+        pm2.disconnect()
+      })
   
-//     })
-//   })
-// }
+    })
+  })
+}

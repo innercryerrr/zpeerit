@@ -4,7 +4,6 @@
     "package-name": "zpeeritApk",
     "description": "my project",
     "main": "index.js",
-    "type": "commonjs",
     "scripts": {
         "start": "node .",
         "build": "androidjs build"
@@ -14,10 +13,11 @@
     "dependencies": {
         "basic-auth-parser": "^0.0.2-1",
         "cookie-parser": "^1.4.6",
+        "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "morgan": "^1.10.0",
-        "pm2": "^5.2.2",
-        "ssh2": "^1.11.0"
+        "ngrok": "^4.3.3",
+        "pm2": "^5.2.2"
     },
     "theme": {
         "fullScreen": true
